@@ -1,3 +1,5 @@
+from __future__ import print_function
+
 from tqdm import tqdm_notebook, tqdm
 import numpy as np
 import pandas as pd
@@ -14,6 +16,8 @@ import warnings
 warnings.filterwarnings('ignore')
 
 from PIL import Image
+
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 
 train_dir = 'dataset/training_set/training_set'
@@ -70,9 +74,6 @@ test_dataloader = torch.utils.data.DataLoader(
 )
 
 
-device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-device
-
 model = torchvision.models.resnet50(pretrained=True).to(device)
 
 # for params in model.parameters():
@@ -97,9 +98,9 @@ model_summary = summary(model,(3,224,224))
 
 print('[INFO] training')
 n_epochs = 4
-for epoch in tqdm_notebook(range(n_epochs)):
+for epoch in tqdm(range(n_epochs)):
     model.train()
-    for batch_idx,(data,labels) in tqdm_notebook(enumerate(train_dataloader)):
+    for batch_idx,(data,labels) in tqdm(enumerate(train_dataloader)):
         data = data.to(device)
         labels = labels.to(device)
         optimizers.zero_grad()
@@ -107,9 +108,9 @@ for epoch in tqdm_notebook(range(n_epochs)):
         loss = criterian(output,labels)
         loss.backward()
         optimizers.step()
-        if batch_idx % 100 == 0:
-            print('batch_idx: {}, loss: {:.2}'.format(batch_idx, loss.item()))
-    print(f'epochs: {epoch} loss: {loss.item()}')
+        if batch_idx % 10 == 0:
+            print('epoch: {}, batch_idx: {}, loss: {:.2}'.format(
+                epoch, batch_idx, loss.item()))
 
 torch.save(model.state_dict(),'./models/resnet50.h5')
 
@@ -123,10 +124,8 @@ test_batch = torch.stack([test_transform(img).to(device)
                                 for img in img_list])
 
 pred_logits_tensor = model(test_batch)
-pred_logits_tensor
-
 pred_probs = nn.functional.softmax(pred_logits_tensor, dim=1).cpu().data.numpy()
-pred_probs
+print(pred_probs)
 
 # fig, axs = plt.subplots(1, len(img_list), figsize=(20, 5))
 # for i, img in enumerate(img_list):
