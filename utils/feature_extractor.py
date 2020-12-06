@@ -16,6 +16,7 @@ class FeatureExtractor():
         outputs = []
         self.gradients = []
         for name, module in self.model._modules.items():
+            # print('name', name)
             x = module(x)
             if name in self.target_layers:
                 x.register_hook(self.save_gradient)
