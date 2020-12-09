@@ -8,11 +8,12 @@ Pipline:
     and computes intermediate activations.
     4. Makes the visualization.
 '''
-
+import os
 import cv2
 import numpy as np
+import torch
+import torch.nn as nn
 from torchvision import models
-from torchsummary import summary
 
 from utils.guided_backprop_relu_model import GuidedBackpropReLUModel
 from utils.grad_cam import GradCam
@@ -21,7 +22,7 @@ from utils.tools import get_args
 from utils.tools import preprocess_image
 from utils.tools import show_cam_on_image
 from utils.tools import check_folder
-
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 def main():
     check_folder()
@@ -29,13 +30,15 @@ def main():
 
     # Can work with any model, but it assumes that the model has a
     # feature method, and a classifier method,
-    model = models.resnet50(pretrained=True)
-    # print(list(model._modules.keys()))
-    # for name, module in model._modules.items():
-    #     print('name', name)
+    # model = models.resnet50(pretrained=True)
 
-    # model_summary = summary(model, (3, 224, 224))
-    # print(model_summary)
+    model = models.resnet50(pretrained=True).to(device)
+    model.fc = nn.Sequential(
+        nn.Linear(2048, 2),
+    ).to(device)
+
+    model.load_state_dict(torch.load(
+        './models/resnet50-epoch6-Acc9715.h5'))
 
     grad_cam = GradCam(
         model=model, 
@@ -53,7 +56,8 @@ def main():
     target_index = None
     mask = grad_cam(input, target_index)
 
-    show_cam_on_image(img, mask)
+    out_path_cam = './out/{}_cam.jpg'.format(args.out_prefix)
+    show_cam_on_image(img, mask, out_path_cam)
 
     gb_model = GuidedBackpropReLUModel(model=model, use_cuda=args.use_cuda)
     # print(model._modules.items())
@@ -63,9 +67,11 @@ def main():
     cam_gb = deprocess_image(cam_mask*gb)
     gb = deprocess_image(gb)
 
-    cv2.imwrite('./out/gb.jpg', gb)
-    cv2.imwrite('./out/cam_gb.jpg', cam_gb)
+    cv2.imwrite('./out/{}_gb.jpg'.format(args.out_prefix), gb)
+    cv2.imwrite('./out/{}_cam_gb.jpg'.format(args.out_prefix), cam_gb)
+    os.system('cp {} ./out/{}_orig.jpg'.format(args.image_path, args.out_prefix))
 
 
 if __name__ == '__main__':
     main()
+

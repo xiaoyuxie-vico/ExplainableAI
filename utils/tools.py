@@ -20,12 +20,12 @@ def preprocess_image(img):
     return input
 
 
-def show_cam_on_image(img, mask):
+def show_cam_on_image(img, mask, out_path):
     heatmap = cv2.applyColorMap(np.uint8(255 * mask), cv2.COLORMAP_JET)
     heatmap = np.float32(heatmap) / 255
     cam = heatmap + np.float32(img)
     cam = cam / np.max(cam)
-    cv2.imwrite("./out/cam.jpg", np.uint8(255 * cam))
+    cv2.imwrite(out_path, np.uint8(255 * cam))
 
 
 def deprocess_image(img):
@@ -40,9 +40,13 @@ def deprocess_image(img):
 
 def get_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--use-cuda', action='store_true', default=False,
+    # parser.add_argument('--use-cuda', action='store_true', default=False,
+    #                     help='Use NVIDIA GPU acceleration')
+    parser.add_argument('--use-cuda', action='store_true', default=True,
                         help='Use NVIDIA GPU acceleration')
     parser.add_argument('--image-path', type=str, default='./examples/both.png',
+                        help='Input image path')
+    parser.add_argument('--out_prefix', type=str, default='prefix',
                         help='Input image path')
     args = parser.parse_args()
     args.use_cuda = args.use_cuda and torch.cuda.is_available()
@@ -57,3 +61,4 @@ def check_folder():
     for folder_path in ['./out', './models']:
         if not os.path.exists(folder_path):
             os.mkdir(folder_path)
+
