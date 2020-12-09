@@ -1,4 +1,4 @@
 # Explainable AI
 
-Base code is forked from https://github.com/jacobgil/pytorch-grad-cam.
-
+EE475 final project 2020 Fall.
+Xiaoyu Xie
