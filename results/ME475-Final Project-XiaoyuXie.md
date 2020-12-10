@@ -4,7 +4,7 @@ For a classification problem, we generally use a softmax function to get the pre
 
 There are two contributions in this final project. First, I proposed a robust classification approach to identify samples from unknown classes and hard samples. Second, I used Grad-CAM to visualization the attention of neural networks to make the results more explainable. Specifically, I find that apparent misclassifications tend to have a larger attention area and understandable misclassifications tend to have a smaller attention are.
 
-Note that due to the requirement of page numbers, I just include the code for training. Other codes can be found in [github](https://github.com/xiaoyuxie-vico/ExplainableAI).
+Note that due to the requirement of page numbers, I just include the code for training. Other codes can be found in [github](https://github.com/xiaoyuxie-vico/ExplainableAI/tree/master).
 
 # Dataset
 
@@ -86,7 +86,7 @@ for epoch in tqdm_notebook(range(n_epochs)):
     epoch: 0, batch_idx: 200, loss: 0.0473, acc: 0.93
     epoch: 0, batch_idx: 220, loss: 0.3588, acc: 0.9328
     epoch: 0, batch_idx: 240, loss: 0.0424, acc: 0.9354
-    
+
 
 
 
@@ -106,7 +106,7 @@ for epoch in tqdm_notebook(range(n_epochs)):
     epoch: 1, batch_idx: 200, loss: 0.038, acc: 0.9674
     epoch: 1, batch_idx: 220, loss: 0.1271, acc: 0.9675
     epoch: 1, batch_idx: 240, loss: 0.0412, acc: 0.9676
-    
+
 
 
 
@@ -126,7 +126,7 @@ for epoch in tqdm_notebook(range(n_epochs)):
     epoch: 2, batch_idx: 200, loss: 0.0453, acc: 0.963
     epoch: 2, batch_idx: 220, loss: 0.1472, acc: 0.9632
     epoch: 2, batch_idx: 240, loss: 0.0244, acc: 0.9629
-    
+
 
 
 
@@ -146,7 +146,7 @@ for epoch in tqdm_notebook(range(n_epochs)):
     epoch: 3, batch_idx: 200, loss: 0.0669, acc: 0.9703
     epoch: 3, batch_idx: 220, loss: 0.105, acc: 0.9692
     epoch: 3, batch_idx: 240, loss: 0.0096, acc: 0.9695
-    
+
 
 
 
@@ -166,7 +166,7 @@ for epoch in tqdm_notebook(range(n_epochs)):
     epoch: 4, batch_idx: 200, loss: 0.078, acc: 0.9628
     epoch: 4, batch_idx: 220, loss: 0.013, acc: 0.9638
     epoch: 4, batch_idx: 240, loss: 0.0285, acc: 0.965
-    
+
 
 
 
@@ -186,7 +186,7 @@ for epoch in tqdm_notebook(range(n_epochs)):
     epoch: 5, batch_idx: 200, loss: 0.2472, acc: 0.9663
     epoch: 5, batch_idx: 220, loss: 0.0112, acc: 0.9658
     epoch: 5, batch_idx: 240, loss: 0.0219, acc: 0.9667
-    
+
 
 
 
@@ -206,7 +206,7 @@ for epoch in tqdm_notebook(range(n_epochs)):
     epoch: 6, batch_idx: 200, loss: 0.0567, acc: 0.9708
     epoch: 6, batch_idx: 220, loss: 0.0137, acc: 0.9717
     epoch: 6, batch_idx: 240, loss: 0.0499, acc: 0.9712
-    
+
 
 
 
@@ -274,5 +274,6 @@ In the above, we test some images from the Internet. Now, we will analyze the te
 
 
 ```python
-
+Note that the youtube link is https://www.youtube.com/watch?v=cIIOdQHTQu4&t=4s
 ```
+
